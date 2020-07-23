@@ -65,11 +65,5 @@ export function setVersionLinkFn(fn: typeof getFooterLinks) {
 }
 
 export const Footer: FC = React.memo(() => {
-
-
-  return (
-    <footer className="footer">
-
-    </footer>
-  );
+  return <footer className="footer"></footer>;
 });
