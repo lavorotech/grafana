@@ -54,6 +54,14 @@ RUN apk add --no-cache ca-certificates bash tzdata && \
 
 COPY conf ./conf
 
+RUN apk add --update \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+RUN apk update \
+ && apk add jq \
+ && rm -rf /var/cache/apk/*
+
 RUN mkdir -p "$GF_PATHS_HOME/.aws" && \
     addgroup -S -g $GF_GID grafana && \
     adduser -S -u $GF_UID -G grafana grafana && \

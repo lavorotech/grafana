@@ -44,3 +44,25 @@ If you're interested in contributing to the Grafana project:
 ## License
 
 Grafana is distributed under the [Apache 2.0 License](https://github.com/grafana/grafana/blob/master/LICENSE).
+
+Helpful build instruction from https://www.stroppykitten.com/technical/build-grafana-package:
+
+I had reason to re-build a custom grafana Debian package a few weeks back.  It was a little bit tricky to figure out the right steps, and I wasn't able to find this process documented anywhere else, so here it is (for my future benefit as much as anyone else's).  This is brief, and is intended to be an outline/guide only.  Your mileage may vary
+
+Install go version 1.9 (although check the current Grafana README for the correct current version; it can and does change).  Use your choice of install method; I don't even want to guess what the current hotness will be when these instructions are used.
+Install nodejs, npm, and then yarn using npm (e.g. npm install -g yarn)
+Yarn has some specific nodejs version requirements, so you may need to use 'n' (npm install n, then use 'n' to install a suitable version of nodejs) to make it happy.  Again, this can and does change over time, so you may have to figure this out for yourself the hard way.
+Install 'fpm' using gem (system wide is probably ok, may require additional packages/support to compile/install), e.g. gem install fpm
+cd ~somedir
+export GOPATH=`pwd`
+If you have some specific alternative preferences for how to handle your GOPATH, then you will already understand how you could do this differently.  Make your choices, and have fun.  Remember that I don't care that I might be the devil incarnate relative to your world view; this set of instructions works, and keeps my grafana build self-contained, which is my sole goal.
+go get github.com/grafana/grafana
+Wait some time with zero feedback (hrnnnghhh), while the internet is consulted for all the bits (pro-tip: it's doing one or more git clones)
+cd src/github.com/grafana/grafana
+Make your changes, checkout a specific tag/branch, or whatever you want to do to end up with the source you want to build into a package.
+go run build.go setup
+yarn install --pure-lockfile
+go run build.go build
+Update package.json, modify 'version' to be the package version you want, e.g. 4.6.2-1.  You probably want to ensure it's one bump up from whatever package is currently installed.  Consider consulting the Debian documentation for a full explanation of what you can do with version numbers, particularly if you're going to be permanently split from the mainstream grafana debian repositories.
+go run build.go -includeBuildNumber=false pkg-deb
+You should end up with a debian package in a handy location, which you can then go put in your local package repo, or install via some other method. 
