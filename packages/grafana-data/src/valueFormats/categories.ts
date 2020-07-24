@@ -370,6 +370,7 @@ export const getCategories = (): ValueFormatCategory[] => [
       { name: 'Normal cubic meter', id: 'Nm3', fn: toFixedUnit('Nm³') },
       { name: 'cubic decimeter', id: 'dm3', fn: toFixedUnit('dm³') },
       { name: 'gallons', id: 'gallons', fn: toFixedUnit('gal') },
+      { name: 'barrels', id: 'barrels', fn: toFixedUnit('bbl') },
     ],
   },
 ];
